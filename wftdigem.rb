@@ -8,4 +8,7 @@ ctx.set_line_property(:bits_8, :stop_bit_1, :none)
 sleep 0.001
 ctx.flowctrl = Ftdi::SIO_RTS_CTS_HS
 
+jog = "\xD9\x08\x01\x01\x50\x01"
+stat = "\xe0\x08\x00\x00\x50\x01"
+
 binding.pry
