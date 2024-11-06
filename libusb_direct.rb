@@ -38,7 +38,7 @@ sleep 50E-6
 puts handle.control_transfer(bmRequestType: 0x40, bRequest: 0x02, wValue: 0x00, wIndex: 0x0100, timeout: timeout)
 
 # Set Modem control
-puts handle.control_transfer(bmRequestType: 0x40, bRequest: 0x01, wValue: 0x0202, wIndex: 0x0100, timeout: timeout)
+puts handle.control_transfer(bmRequestType: 0x40, bRequest: 0x01, wValue: 0x0202, wIndex: 0x00, timeout: timeout)
 
 # Reset
 puts handle.control_transfer(bmRequestType: 0x40, bRequest: 0x00, wValue: 0x00, wIndex: 0x00, timeout: timeout)
