@@ -1,6 +1,36 @@
 require 'pry'
 require 'ftdi'
 
+def jog(context, steps)
+  raise "Steps should be an integer, pos or neg." unless steps.is_a? Integer
+
+  steps = 2000 if steps.abs > 2000 # Chop
+  # Set step sizes
+  command_head = "\xC0\x08"
+  command_length = [22].pack "S"
+
+  sub_msg_id = "\x2D\x00"
+  channel = "\x01\x00"
+  jog_mode = "\x02\x00"
+  forward_size = [steps.abs].pack "L"
+  reverse_size = [steps.abs].pack "L"
+  rate = [2000].pack "L"
+  accel = [50000].pack "L"
+
+  command = command_head + command_length + "\xD0\x01"
+  command += sub_msg_id + channel + jog_mode + forward_size + reverse_size + rate + accel
+  context.write_data command
+  puts context.read_data
+  puts "Step size set"
+
+  command = "\xD9\x08"
+  command += (steps > 0) ? "\x01\x01" : "\x01\x02"
+  command += "\x50\x01"
+  puts "Now rotate"
+  context.write_data command
+  puts context.read_data
+end
+
 ctx = Ftdi::Context.new
 handle = ctx.usb_open(0x0403, 0xfaf0)
 ctx.baudrate = 115200
