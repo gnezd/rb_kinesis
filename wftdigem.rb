@@ -32,6 +32,13 @@ def jog(context, steps)
   puts context.read_data
 end
 
+def zero(context)
+  command = "\xC0\x08\x0C\x00\xD0\x01".force_encoding Encoding::ASCII_8BIT
+  command += "\x05\x00\x01\x00" + ("\0"*8)
+  context.write_data command
+  puts context.read_data
+end
+
 ctx = Ftdi::Context.new
 handle = ctx.usb_open(0x0403, 0xfaf0)
 ctx.baudrate = 115200
