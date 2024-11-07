@@ -18,6 +18,7 @@ def jog(context, steps)
   accel = [50000].pack "L"
 
   command = command_head + command_length + "\xD0\x01"
+  command.force_encoding Encoding::ASCII_8BIT
   command += sub_msg_id + channel + jog_mode + forward_size + reverse_size + rate + accel
   context.write_data command
   puts context.read_data
